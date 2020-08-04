@@ -1,12 +1,24 @@
 const express = require('express'),
-  mongoose = require('mongoose'),
-  app = express(),
-  User = require('./models/user.model'),
-  Rating = require('./models/rating.model'),
-  Company = require('./models/company.model'),
-  Category = require('./models/category.model'),
-  indexRoutes = require('./routes/index'),
-  letters = require('./routes/letters');
+const path = require('path'),
+const bodyParser = require('body-parser'),
+const cookieParser = require('cookie-parser'),
+const cors = require('cors'),
+const multer = require('multer'),
+mongoose = require('mongoose'),
+
+User = require('./models/user.model'),
+Rating = require('./models/rating.model'),
+Company = require('./models/company.model'),
+Category = require('./models/category.model'),
+indexRoutes = require('./routes/index'),
+letters = require('./routes/letters');
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+app.use(cookieParser());
+
 
 require('dotenv').config();
 
