@@ -14,5 +14,9 @@ router.post('/login', userController.login);
 router.get('/details',withAuth,userController.userDetails);
 
 
+// router.get('/emailConfirmation/:token', );
+
+
+
 module.exports = router;
 

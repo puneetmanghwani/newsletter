@@ -1,26 +1,59 @@
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const crypto = require('crypto');
 
-const User = require('../models/user');
+
+const User = require('../models/user.model');
+const Company = require('../models/company.model');
+const Customer = require('../models/customer.model');
+const Token = require('../models/token.model');
+const Mailer = require('../utilities/mailer');
 
 const secret = 'helloworld';
 
 
 exports.register = (req,res,next) => {
-    const { email,name, password } = req.body;
-    var user;
+    const { email,name, password, userRole, description, contact } = req.body;
+    // var user;
     
-    user = new User({ email,name, password });
+    const user = new User({ email,name, password,userRole });
     
     user.save(
         function(err){
             if(err){
-              res.json({
-                error: 'Email Already Exist'
+              return res.json({
+                error: err.message
               });
             }
             else{
-                res.status(200).json("Welcome");
+                if(userRole==='Company'){
+                  const company = new Company({ user,name,description });
+                  company.save(function(err){
+                    if(err){
+                      return res.json({
+                        error: 'Error Registering User. Please Try Again.'
+                      });
+                    }
+                  })
+                }
+                else if(userRole==='Customer'){
+                  const customer = new Customer({ user,name,description,contact });
+                  customer.save(function(err){
+                    if(err){
+                      return res.json({
+                        error: 'Error Registering User. Please Try Again.'
+                      });
+                    }
+                  })
+                }
+                var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+                token.save(function(err){
+                if (err){
+                  return res.status(500).send({ msg: err.message }); 
+                }
+                Mailer(user.email,req.headers.host,token.token);
+                return res.status(200).send('A verification email has been sent to ' + user.email + '.');
+            })
             }
         }
     )
