@@ -12,11 +12,11 @@ const withAuth = require('../middleware');
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/details',withAuth,userController.userDetails);
+router.get('/resendToken',userController.resendToken);
 
+router.get('/emailConfirmation/:token',userController.emailConfirmation );
 
-// router.get('/emailConfirmation/:token', );
-
-
+// router.get('/try',userController.try)
 
 module.exports = router;
 

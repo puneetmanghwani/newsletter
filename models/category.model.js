@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
+const { companySchema } = require('./company.model');
+const Company = require('./company.model').companySchema;
 
 const Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
-  title: {
-    type: String,
-    required: true
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CategoryList"
   },
-  image: {
-    type: String,
-    required: true
+  companyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company"
   }
 });
 

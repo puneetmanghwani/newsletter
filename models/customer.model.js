@@ -6,8 +6,8 @@ const Schema = mongoose.Schema;
 
 const customerSchema = new Schema({
   userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   },
   name: {
     type: String,
@@ -27,4 +27,4 @@ const customerSchema = new Schema({
 
 const Customer = mongoose.model('Customer', customerSchema);
 
-module.exports = Customer;
+module.exports = Customer ;

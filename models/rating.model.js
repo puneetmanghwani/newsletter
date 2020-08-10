@@ -3,22 +3,26 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ratingSchema = new Schema({
-    author: {
-		id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User"
-		},
-		username: String
+    companyId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Company"
     },
-    score: {
-        type: Number,
-        required: true
+    customerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Customer"
+    },
+    rating: {
+        type:Number,
+        required:false
     },
     review: {
-        type: String
+        type:String,
+        required:false
     }
 });
 
 const Rating = mongoose.model('Rating', ratingSchema);
 
 module.exports = Rating;
+
+
